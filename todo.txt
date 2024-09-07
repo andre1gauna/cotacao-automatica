@@ -1,0 +1,3 @@
+Verficar necessidade de baixar arquivos punkt toda hora
+Incluir blocos try/catch
+quebrar funções em arquivos diferentes
