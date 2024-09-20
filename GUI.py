@@ -5,49 +5,90 @@ from ModelProcessor import train_quote_model
 from ModelProcessor import normalize_product
 from Utils import read_quote_file
 
+
 train_file_path = None
 quote_file_path = None
 model_update_file_path = None
 
 def load_train_file():
-    global train_file_path
-    train_file_path = filedialog.askopenfilename(title="Selecione o arquivo para treinar modelo")
-    if train_file_path:
-        entry_train.delete(0, tk.END)
-        entry_train.insert(0, train_file_path)
+    try:
+        global train_file_path
+        train_file_path = filedialog.askopenfilename(title="Selecione o arquivo para treinar modelo")
+        if train_file_path:
+            entry_train.delete(0, tk.END)
+            entry_train.insert(0, train_file_path)
+
+    except Exception as e:
+        messagebox.showerror("Erro", f"Ocorreu um erro ao carregar o arquivo de treino: {e}")
+
 
 def load_quote_file():
-    global quote_file_path
-    quote_file_path = filedialog.askopenfilename(title="Selecione o arquivo para realizar cotação automática")
-    if quote_file_path:
-        entry_quote.delete(0, tk.END)
-        entry_quote.insert(0, quote_file_path)
+    try:
+        global quote_file_path
+        quote_file_path = filedialog.askopenfilename(title="Selecione o arquivo para realizar cotação automática")
+        if quote_file_path:
+            entry_quote.delete(0, tk.END)
+            entry_quote.insert(0, quote_file_path)
+
+    except Exception as e:
+        messagebox.showerror("Erro", f"Ocorreu um erro ao carregar o arquivo de cotação: {e}")
+
 
 def load_model_update_file():
-    global model_update_file_path
-    model_update_file_path = filedialog.askopenfilename(title="Selecione o arquivo para atualizar o modelo")
-    if model_update_file_path:
-        entry_update.delete(0, tk.END)
-        entry_update.insert(0, model_update_file_path)
+    try:
+        global model_update_file_path
+        model_update_file_path = filedialog.askopenfilename(title="Selecione o arquivo para atualizar o modelo")
+        if model_update_file_path:
+            entry_update.delete(0, tk.END)
+            entry_update.insert(0, model_update_file_path)
+
+    except Exception as e:
+        messagebox.showerror("Erro", f"Ocorreu um erro ao carregar o arquivo de atualização do modelo: {e}")
+
 
 def save_train_files():
-    train_files_save_path = filedialog.askopenfilename(title="Selecione a pasta para salvar os arquivos de treino")
-    if train_files_save_path:
-        entry_save_path.delete(0, tk.END)
-        entry_save_path.insert(0, train_files_save_path)
+    try:
+        train_files_save_path = filedialog.askopenfilename(title="Selecione a pasta para salvar os arquivos de treino")
+        if train_files_save_path:
+            entry_save_path.delete(0, tk.END)
+            entry_save_path.insert(0, train_files_save_path)
+
+    except Exception as e:
+        messagebox.showerror("Erro", f"Ocorreu um erro ao salvar os arquivos de treino: {e}")
+
 
 def train_model():
-    train_quote_model(train_file_path)
-    messagebox.showinfo("Treinar", "Treinamento realizado com sucesso!")
+    try:
+        train_quote_model(train_file_path)
+        messagebox.showinfo("Treinar", "Treinamento realizado com sucesso!")
+
+    except FileNotFoundError:
+        messagebox.showerror("Erro", "Arquivo de treino não encontrado.")
+    except Exception as e:
+        messagebox.showerror("Erro", f"Ocorreu um erro durante o treinamento do modelo: {e}")
+
 
 def make_quote():
-    normalized_name = normalize_product(read_quote_file(quote_file_path)) #TODO: inserir leitura da coluna de produtos do arquivo excel
-    messagebox.showinfo("Resultado", normalized_name)
-    messagebox.showinfo("Processar", "Cotação processada com sucesso!")
+    try:
+        normalized_name = normalize_product(read_quote_file(quote_file_path), quote_file_path)
+        if normalized_name:
+            messagebox.showinfo("Processando", "Cotação processada com sucesso!")
+        else:
+            messagebox.showinfo("Processando", "Erro no processamento!")
+
+    except FileNotFoundError:
+        messagebox.showerror("Erro", "Arquivo de cotação não encontrado.")
+    except Exception as e:
+        messagebox.showerror("Erro", f"Ocorreu um erro durante o processamento da cotação: {e}")
 
 
 def update_model():
-    messagebox.showinfo("Atualizar", "Modelo atualizado com sucesso!")
+    try:
+        messagebox.showinfo("Atualizar", "Modelo atualizado com sucesso!")
+
+    except Exception as e:
+        messagebox.showerror("Erro", f"Ocorreu um erro durante a atualização do modelo: {e}")
+
 
 root = tk.Tk()
 root.title("Aplicação WindowsForms")
@@ -59,7 +100,8 @@ btn_load_train_file.grid(row=0, column=0, padx=10, pady=10)
 btn_load_quote_file = tk.Button(root, text="Carregar arquivo para cotação", command=load_quote_file)
 btn_load_quote_file.grid(row=0, column=1, padx=10, pady=10)
 
-btn_load_update_model_file = tk.Button(root, text="Carregar arquivo para atualizar modelo", command=load_model_update_file)
+btn_load_update_model_file = tk.Button(root, text="Carregar arquivo para atualizar modelo",
+                                       command=load_model_update_file)
 btn_load_update_model_file.grid(row=0, column=2, padx=10, pady=10)
 
 btn_train = tk.Button(root, text="Treinar", command=train_model)
@@ -88,7 +130,7 @@ entry_save_path.grid(row=5, column=0, columnspan = 3, padx=10, pady=0)
 
 
 root.mainloop()
-#
+
 # # Criar um ambiente virtual chamado 'venv'
 # python -m venv venv
 #

@@ -1,3 +1,2 @@
-Verficar necessidade de baixar arquivos punkt toda hora
-Incluir blocos try/catch
-quebrar funções em arquivos diferentes
+Criar base com valores para retorno de cotação
+retonar valores normalizados com preços, consultados na base
