@@ -59,8 +59,11 @@ def save_train_files():
 
 def train_model():
     try:
-        train_quote_model(train_file_path)
-        messagebox.showinfo("Treinar", "Treinamento realizado com sucesso!")
+        train_success = train_quote_model(train_file_path)
+        if train_success:
+            messagebox.showinfo("Treinar", "Treinamento realizado com sucesso!")
+        else:
+            messagebox.showinfo("Treinar", "Erro no treinamento!")
 
     except FileNotFoundError:
         messagebox.showerror("Erro", "Arquivo de treino não encontrado.")

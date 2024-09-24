@@ -36,6 +36,8 @@ def train_quote_model(file_path):
         joblib.dump(vectorizer, 'files\\vectorizer.pkl')
         joblib.dump(label_encoder, 'files\\label_encoder.pkl')
 
+        return True
+
     except FileNotFoundError as fnf_error:
         print(f"Erro: Arquivo não encontrado - {fnf_error}")
     except ValueError as ve:
@@ -50,8 +52,11 @@ def train_quote_model(file_path):
 
 def normalize_product(product_name_list, file_path):
     product_name_list_normalized = []
+    product_name_list_processed = []
     try:
-        product_name_list_processed = preprocess_text(product_name_list)
+        for item in product_name_list:
+            product_name_list_processed.append(preprocess_text(item))
+
         model = joblib.load('files\\model.pkl')
         vectorizer = joblib.load('files\\vectorizer.pkl')
         label_encoder = joblib.load('files\\label_encoder.pkl')

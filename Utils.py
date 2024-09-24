@@ -38,11 +38,9 @@ def preprocess_text(text_list):
     try:
         check_and_download_nltk_resources()
         stop_words = set(nltk.corpus.stopwords.words('portuguese'))
-        for text in text_list:
-            words = nltk.word_tokenize(text.lower())
-            words = [word for word in words if word not in stop_words]
-            preprocess_text_list.append(' '.join(words))
-        return preprocess_text_list
+        words = nltk.word_tokenize(text_list.lower())
+        words = [word for word in words if word not in stop_words]
+        return ' '.join(words)
 
     except LookupError:
         print("Erro: Não foi possível encontrar os recursos necessários do NLTK (como stopwords ou tokenizer).")
