@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/.idea/OAGPredict.iml" filepath="$PROJECT_DIR$/.idea/OAGPredict.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/cotacao-automatica.iml" filepath="$PROJECT_DIR$/.idea/cotacao-automatica.iml" />
     </modules>
   </component>
 </project>

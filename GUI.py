@@ -139,7 +139,7 @@ root.mainloop()
 #
 # # No Windows, ativar o ambiente virtual
 # venv\Scripts\activate
-#
+
 # # No macOS/Linux, ativar o ambiente virtual
 # source venv/bin/activate
 #
